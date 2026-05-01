@@ -4,6 +4,9 @@ import type { Article } from '~/types/article';
 
 const { request } = useApiClient();
 const router = useRouter();
+const route = useRoute();
+
+const documentId = route.params.id as string;
 
 const form = reactive({
   title: '',
@@ -12,9 +15,31 @@ const form = reactive({
 });
 
 const loading = ref(false);
+const fetching = ref(true);
 const error = ref('');
 
-const handleCreate = async () => {
+const fetchArticle = async () => {
+  fetching.value = true;
+  try {
+    const response = await request<{ data: Article }>(`/api/articles/${documentId}`, {
+      query: { ownArticles: 'true' }
+    });
+    
+    if (response.data) {
+      form.title = response.data.title;
+      form.status = response.data.status;
+      // Extract text from Strapi blocks
+      form.content = response.data.content?.[0]?.children?.[0]?.text || '';
+    }
+  } catch (err: unknown) {
+    error.value = 'Failed to load article';
+    console.error(err);
+  } finally {
+    fetching.value = false;
+  }
+};
+
+const handleUpdate = async () => {
   if (!form.title || !form.content) {
     error.value = 'Please fill in all fields';
     return;
@@ -24,8 +49,8 @@ const handleCreate = async () => {
   error.value = '';
 
   try {
-    await request<{ data: Article }>('/api/articles', {
-      method: 'POST',
+    await request(`/api/articles/${documentId}`, {
+      method: 'PUT',
       body: {
         data: {
           title: form.title,
@@ -43,11 +68,13 @@ const handleCreate = async () => {
     router.push('/admin/articles');
   } catch (err: unknown) {
     const fetchError = err as { data?: { error?: { message?: string } } };
-    error.value = fetchError.data?.error?.message || 'Failed to create article';
+    error.value = fetchError.data?.error?.message || 'Failed to update article';
   } finally {
     loading.value = false;
   }
 };
+
+onMounted(fetchArticle);
 </script>
 
 <template>
@@ -62,12 +89,16 @@ const handleCreate = async () => {
         </svg>
       </NuxtLink>
       <div>
-        <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">Create New Article</h1>
-        <p class="text-slate-500 font-medium">Share your insights with the community.</p>
+        <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">Edit Article</h1>
+        <p class="text-slate-500 font-medium">Update your story and publication settings.</p>
       </div>
     </div>
 
-    <form @submit.prevent="handleCreate" class="bg-white rounded-3xl border border-slate-200 p-10 shadow-xl shadow-slate-200/40 space-y-8">
+    <div v-if="fetching" class="flex justify-center py-20">
+      <div class="w-10 h-10 border-4 border-blue-100 border-t-blue-600 rounded-full animate-spin"></div>
+    </div>
+
+    <form v-else @submit.prevent="handleUpdate" class="bg-white rounded-3xl border border-slate-200 p-10 shadow-xl shadow-slate-200/40 space-y-8">
       <div v-if="error" class="p-4 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl font-medium animate-shake">
         {{ error }}
       </div>
@@ -101,7 +132,7 @@ const handleCreate = async () => {
             <button 
               type="button"
               @click="form.status = 'draft'"
-              class="flex-1 p-4 rounded-2xl border-2 transition-all flex flex-col items-center gap-2 group"
+              class="flex-1 p-4 rounded-2xl border-2 transition-all flex flex-col items-center gap-2"
               :class="form.status === 'draft' ? 'border-blue-600 bg-blue-50' : 'border-slate-100 hover:border-slate-200 bg-slate-50/50'"
             >
               <span class="text-2xl">📝</span>
@@ -112,7 +143,7 @@ const handleCreate = async () => {
             <button 
               type="button"
               @click="form.status = 'published'"
-              class="flex-1 p-4 rounded-2xl border-2 transition-all flex flex-col items-center gap-2 group"
+              class="flex-1 p-4 rounded-2xl border-2 transition-all flex flex-col items-center gap-2"
               :class="form.status === 'published' ? 'border-emerald-600 bg-emerald-50' : 'border-slate-100 hover:border-slate-200 bg-slate-50/50'"
             >
               <span class="text-2xl">🚀</span>
@@ -125,15 +156,20 @@ const handleCreate = async () => {
 
       <div class="flex items-center justify-between pt-6 border-t border-slate-50">
         <p class="text-xs text-slate-400 font-medium italic">
-          * Auto-saved to local storage coming soon
+          Last updated {{ new Date().toLocaleDateString() }}
         </p>
-        <button type="submit" :disabled="loading" class="btn-primary min-w-[180px]">
-          <span v-if="loading" class="flex items-center gap-2">
-            <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-            Saving...
-          </span>
-          <span v-else>{{ form.status === 'published' ? 'Publish Now' : 'Save as Draft' }}</span>
-        </button>
+        <div class="flex gap-4">
+          <NuxtLink to="/admin/articles" class="px-6 py-2.5 text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">
+            Cancel
+          </NuxtLink>
+          <button type="submit" :disabled="loading" class="btn-primary min-w-[180px]">
+            <span v-if="loading" class="flex items-center gap-2">
+              <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+              Updating...
+            </span>
+            <span v-else>Update Article</span>
+          </button>
+        </div>
       </div>
     </form>
   </div>

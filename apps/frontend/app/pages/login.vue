@@ -27,40 +27,21 @@ const handleLogin = async () => {
 </script>
 
 <template>
-  <div class="flex items-center justify-center min-h-screen p-4">
-    <div
-      class="w-full max-w-md p-8 glass rounded-3xl space-y-8 relative overflow-hidden"
-    >
-      <!-- Background decoration -->
-      <div
-        class="absolute -top-24 -right-24 w-48 h-48 bg-indigo-600/20 rounded-full blur-3xl"
-      ></div>
-      <div
-        class="absolute -bottom-24 -left-24 w-48 h-48 bg-purple-600/20 rounded-full blur-3xl"
-      ></div>
-
-      <div class="relative space-y-2 text-center">
-        <h1
-          class="text-4xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent"
-        >
-          Welcome back
-        </h1>
-        <p class="text-slate-400">Enter your details to access your account</p>
+  <div class="max-w-md mx-auto py-12">
+    <div class="bg-white p-10 rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/50 space-y-8 relative overflow-hidden">
+      <div class="text-center space-y-2">
+        <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">Welcome back</h1>
+        <p class="text-slate-500 font-medium">Enter your details to access your account</p>
       </div>
 
-      <form @submit.prevent="handleLogin" class="relative space-y-6">
-        <div
-          v-if="error"
-          class="p-4 text-sm text-red-400 bg-red-400/10 border border-red-400/20 rounded-xl animate-shake"
-        >
+      <form @submit.prevent="handleLogin" class="space-y-6">
+        <div v-if="error" class="p-4 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl font-medium animate-shake">
           {{ error }}
         </div>
 
-        <div class="space-y-4">
+        <div class="space-y-5">
           <div class="space-y-2">
-            <label class="text-sm font-medium text-slate-300 ml-1"
-              >Email or Username</label
-            >
+            <label>Email or Username</label>
             <input
               v-model="form.identifier"
               type="text"
@@ -71,9 +52,7 @@ const handleLogin = async () => {
           </div>
 
           <div class="space-y-2">
-            <label class="text-sm font-medium text-slate-300 ml-1"
-              >Password</label
-            >
+            <label>Password</label>
             <input
               v-model="form.password"
               type="password"
@@ -84,40 +63,18 @@ const handleLogin = async () => {
           </div>
         </div>
 
-        <button type="submit" :disabled="loading" class="w-full btn-primary">
-          <span v-if="loading" class="flex items-center justify-center gap-2">
-            <svg
-              class="animate-spin h-5 w-5 text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                class="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                stroke-width="4"
-              ></circle>
-              <path
-                class="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
-            </svg>
+        <button type="submit" :disabled="loading" class="w-full btn-primary flex items-center justify-center gap-2">
+          <span v-if="loading" class="flex items-center gap-2">
+            <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
             Logging in...
           </span>
           <span v-else>Sign In</span>
         </button>
       </form>
 
-      <div class="relative text-center text-sm text-slate-400">
+      <div class="text-center text-sm text-slate-500 font-medium">
         Don't have an account?
-        <NuxtLink
-          to="/register"
-          class="text-indigo-400 hover:text-indigo-300 font-semibold transition-colors"
-        >
+        <NuxtLink to="/register" class="text-blue-600 hover:text-blue-700 font-bold transition-colors">
           Create an account
         </NuxtLink>
       </div>
@@ -127,16 +84,9 @@ const handleLogin = async () => {
 
 <style scoped>
 @keyframes shake {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-4px);
-  }
-  75% {
-    transform: translateX(4px);
-  }
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
 }
 .animate-shake {
   animation: shake 0.2s ease-in-out 0s 2;
