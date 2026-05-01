@@ -24,8 +24,9 @@ export default {
             },
           });
         } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
           strapi.log.error(
-            `Failed to create author for user ${result.id}: ${error.message}`,
+            `Failed to create author for user ${result.id}: ${errorMessage}`,
           );
         }
       },
