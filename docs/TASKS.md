@@ -32,18 +32,18 @@ Legenda:
 - [*] Zainicjalizowac lokalne repozytorium git.
 - [*] Sprawdzic, czy `.gitignore` wyklucza sekrety, `node_modules`, build outputy i dane bazy.
 - [*] Dodac pierwszy commit z inicjalizacja projektu.
-- [ ] Utworzyc repozytorium na GitHub.
-- [ ] Dodac remote GitHub.
-- [ ] Wypchnac kod na GitHub.
+- [*] Utworzyc repozytorium na GitHub.
+- [*] Dodac remote GitHub.
+- [*] Wypchnac kod na GitHub.
 - [*] Utworzyc `.github/workflows/ci.yml`.
 - [*] Skonfigurowac CI: checkout, Node, pnpm, cache/install.
 - [*] Skonfigurowac CI: `pnpm lint`.
 - [*] Skonfigurowac CI: `pnpm test`.
 - [*] Skonfigurowac CI: `pnpm build`.
 - [*] Dodac PostgreSQL service container w CI, jezeli testy backendu beda go wymagac.
-- [ ] Uruchomic pipeline na GitHub.
-- [ ] Potwierdzic, ze pipeline przechodzi.
-- [ ] Zaktualizowac `docs/prompts.md` po repozytorium, pushu i pierwszym CI.
+- [*] Uruchomic pipeline na GitHub.
+- [*] Potwierdzic, ze pipeline przechodzi.
+- [*] Zaktualizowac `docs/prompts.md` po repozytorium, pushu i pierwszym CI.
 
 ## Etap 2 - backend Strapi 5
 

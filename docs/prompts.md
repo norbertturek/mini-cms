@@ -11,3 +11,4 @@
 | 2026-05-01 | 09:56 CEST | "super, utorz nowy plik md z zadaniami do wykonania..." | Utworzono `docs/TASKS.md` jako szczegolowa liste malych zadan aktualizowanych z `[ ]` na `[*]` po wykonaniu. |
 | 2026-05-01 | 10:13 CEST | "super, pamietaj by biblioteki i frameworki instalowac..." | Zakonczono Etap 1: utworzono pnpm workspace, wygenerowano Nuxt 4 i Strapi 5 oficjalnymi generatorami, uruchomiono PostgreSQL, lint, backend i frontend lokalnie. |
 | 2026-05-01 | 10:16 CEST | "przed publikacja repo chce abys utworzyl folder docs..." | Przeniesiono pliki dokumentacyjne Markdown do katalogu `docs/` przed publikacja repozytorium. |
+| 2026-05-01 | 10:23 CEST | "kontynuuj publikacje repo po przeniesieniu dokumentacji" | Utworzono repozytorium GitHub `norbertturek/mini-cms`, wypchnieto kod i potwierdzono zielony pipeline CI dla install, lint, test i build. |
