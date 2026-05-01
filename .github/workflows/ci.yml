@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  quality:
+    name: Lint, test and build
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: mini_cms
+          POSTGRES_USER: mini_cms
+          POSTGRES_PASSWORD: mini_cms
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U mini_cms -d mini_cms"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: localhost
+      DATABASE_PORT: 5432
+      DATABASE_NAME: mini_cms
+      DATABASE_USERNAME: mini_cms
+      DATABASE_PASSWORD: mini_cms
+      DATABASE_SSL: "false"
+      HOST: 0.0.0.0
+      PORT: 1337
+      APP_KEYS: ci-key-1,ci-key-2,ci-key-3,ci-key-4
+      API_TOKEN_SALT: ci-api-token-salt
+      ADMIN_JWT_SECRET: ci-admin-jwt-secret
+      TRANSFER_TOKEN_SALT: ci-transfer-token-salt
+      ENCRYPTION_KEY: ci-encryption-key
+      JWT_SECRET: ci-jwt-secret
+      NUXT_PUBLIC_API_BASE_URL: http://localhost:1337
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
