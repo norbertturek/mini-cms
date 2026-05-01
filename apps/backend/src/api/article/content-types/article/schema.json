@@ -25,10 +25,7 @@
     },
     "status": {
       "type": "enumeration",
-      "enum": [
-        "draft",
-        "published"
-      ],
+      "enum": ["draft", "published"],
       "default": "draft"
     },
     "searchText": {

@@ -1,1 +1,7 @@
-<template><div class='p-8'><h1 class='text-3xl font-bold'>Admin: Articles</h1><p>Welcome to the protected zone.</p><NuxtLink to='/' class='text-indigo-400 mt-4 block'>Back home</NuxtLink></div></template>
+<template>
+  <div class="p-8">
+    <h1 class="text-3xl font-bold">Admin: Articles</h1>
+    <p>Welcome to the protected zone.</p>
+    <NuxtLink to="/" class="text-indigo-400 mt-4 block">Back home</NuxtLink>
+  </div>
+</template>

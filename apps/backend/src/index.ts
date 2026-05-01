@@ -7,7 +7,7 @@ export default {
    *
    * This gives you an opportunity to extend code.
    */
-  register({ strapi }: { strapi: Core.Strapi }) {},
+  register({ strapi: _strapi }: { strapi: Core.Strapi }) {},
 
   bootstrap({ strapi }: { strapi: Core.Strapi }) {
     strapi.db.lifecycles.subscribe({
@@ -24,7 +24,9 @@ export default {
             },
           });
         } catch (error) {
-          strapi.log.error(`Failed to create author for user ${result.id}: ${error.message}`);
+          strapi.log.error(
+            `Failed to create author for user ${result.id}: ${error.message}`,
+          );
         }
       },
     });

@@ -3,6 +3,9 @@
 ## General
 
 - Use TypeScript everywhere possible.
+- **NEVER use `any`. Always define proper interfaces or types. Use `unknown` if a type is truly uncertain.**
+- **NEVER use underscored variables (e.g. `_error`) just to bypass linting. For catch blocks where the error is not used, use the optional catch binding: `catch { ... }`.**
+- **ALWAYS use aliases (e.g. `~` or `@`) for imports to avoid relative path nesting.**
 - Prefer generated framework conventions over custom scaffolding.
 - Install libraries and frameworks with official package managers/generators.
 - Keep business logic out of page files when it can live in composables, services or Strapi services.
