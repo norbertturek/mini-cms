@@ -34,7 +34,7 @@ jobs:
       DATABASE_NAME: mini_cms
       DATABASE_USERNAME: mini_cms
       DATABASE_PASSWORD: mini_cms
-      DATABASE_SSL: "false"
+      DATABASE_SSL: 'false'
       HOST: 0.0.0.0
       PORT: 1337
       APP_KEYS: ci-key-1,ci-key-2,ci-key-3,ci-key-4

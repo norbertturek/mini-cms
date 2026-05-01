@@ -1,0 +1,14 @@
+---
+description: Mini CMS project-wide rules
+globs:
+  - "**/*"
+alwaysApply: true
+---
+
+- Use Nuxt 4 in `apps/frontend` and Strapi 5 in `apps/backend`.
+- Follow `docs/CODING_STANDARDS.md` and `docs/RULES.md`.
+- Install frameworks and libraries through official tools; do not recreate framework files manually when a generator/package exists.
+- Keep `docs/TASKS.md` updated from `[ ]` to `[*]` after completed work.
+- Keep `docs/prompts.md` updated after important AI-assisted steps.
+- Do not commit secrets, `.env`, build output, caches or `node_modules`.
+- Work through branches and PRs; do not push directly to `main`.

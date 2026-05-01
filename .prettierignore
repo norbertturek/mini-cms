@@ -1,0 +1,14 @@
+node_modules/
+.pnpm-store/
+
+.nuxt/
+.output/
+.strapi/
+dist/
+build/
+coverage/
+
+pnpm-lock.yaml
+apps/backend/types/generated/
+apps/backend/.strapi-updater.json
+.agents/skills/

@@ -45,6 +45,26 @@ Legenda:
 - [*] Potwierdzic, ze pipeline przechodzi.
 - [*] Zaktualizowac `docs/prompts.md` po repozytorium, pushu i pierwszym CI.
 
+## Etap 1.6 - dokumentacja, rules i skills
+
+- [*] Utworzyc katalog `docs/implementation`.
+- [*] Utworzyc katalog `docs/implementation/archive`.
+- [*] Przeniesc plan implementacji do `docs/implementation/IMPLEMENTATION_PLAN.md`.
+- [*] Utworzyc root `README.md`.
+- [*] Utworzyc `docs/CODING_STANDARDS.md`.
+- [*] Utworzyc `docs/RULES.md`.
+- [*] Utworzyc `docs/REFERENCES.md`.
+- [*] Utworzyc `AGENTS.md`.
+- [*] Utworzyc Cursor rules dla projektu.
+- [*] Utworzyc Cursor rules dla Nuxt 4.
+- [*] Utworzyc Cursor rules dla Strapi 5.
+- [*] Utworzyc projektowy skill code review.
+- [*] Utworzyc projektowy skill ship.
+- [*] Zweryfikowac mozliwosc zabezpieczenia `main`.
+- [*] Odnotowac blocker branch protection dla prywatnego repo bez GitHub Pro.
+- [*] Otworzyc PR z dokumentacja, rules i skills.
+- [*] Zaktualizowac `docs/prompts.md` po Etapie 1.6.
+
 ## Etap 2 - backend Strapi 5
 
 - [ ] Skonfigurowac Strapi 5 w `apps/backend`.
