@@ -90,18 +90,18 @@ Legenda:
 
 ## Etap 4 - rejestracja, logowanie i JWT
 
-- [ ] Dodac strone `/register`.
-- [ ] Dodac strone `/login`.
-- [ ] Dodac logike rejestracji przez Strapi Users & Permissions.
-- [ ] Automatycznie tworzyc `Author` po rejestracji usera.
-- [ ] Dodac logike logowania.
-- [ ] Dodac logike wylogowania.
-- [ ] Dodac Pinia auth store.
-- [ ] Przechowywac JWT w Pinia jako runtime state.
-- [ ] Przechowywac JWT w cookie przez `useCookie`.
-- [ ] Dodac helper autoryzowanych requestow z naglowkiem `Authorization`.
-- [ ] Potwierdzic flow: rejestracja, logowanie, wylogowanie.
-- [ ] Zaktualizowac `docs/prompts.md` po Etapie 4.
+- [*] Dodac strone `/register`.
+- [*] Dodac strone `/login`.
+- [*] Dodac logike rejestracji przez Strapi Users & Permissions.
+- [*] Automatycznie tworzyc `Author` po rejestracji usera.
+- [*] Dodac logike logowania.
+- [*] Dodac logike wylogowania.
+- [*] Dodac Pinia auth store.
+- [*] Przechowywac JWT w Pinia jako runtime state.
+- [*] Przechowywac JWT w cookie przez `useCookie`.
+- [*] Dodac helper autoryzowanych requestow z naglowkiem `Authorization`.
+- [*] Potwierdzic flow: rejestracja, logowanie, wylogowanie.
+- [*] Zaktualizowac `docs/prompts.md` po Etapie 4.
 
 ## Etap 5 - autoryzacja i ownership
 

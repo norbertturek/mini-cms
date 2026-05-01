@@ -8,6 +8,7 @@
 - Work task by task and update `docs/TASKS.md` from `[ ]` to `[*]` after completion.
 - Update `docs/prompts.md` after meaningful planning, implementation, CI, review or release steps.
 - Keep `main` protected; work through branches and pull requests.
+- **NEVER merge a Pull Request without explicit user approval in the chat, even for small chores or documentation updates.**
 - Current GitHub limitation: branch protection/rulesets for this private repo returned HTTP 403 and require GitHub Pro or making the repository public. Until that is enabled, enforce protected-main behavior operationally through the ship skill and PR workflow.
 
 ## Architecture Rules
