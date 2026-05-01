@@ -1,206 +1,241 @@
 import { factories, Core } from '@strapi/strapi';
 
 /**
- * Minimum required interface for Strapi Context to avoid using 'any'
- * and bypass missing exports in Strapi 5 types.
+ * Controller logic exported for unit testing.
+ * In runtime, Strapi binds `super` via Object.setPrototypeOf.
+ * In tests, `super` is provided via `controller.super = mockSuper`.
  */
-interface StrapiContext {
-  state: {
-    user?: {
-      id: number;
-    };
-  };
-  query: Record<string, unknown>;
-  params: Record<string, string>;
-  request: {
-    body: {
-      data: unknown;
-    };
-  };
-  unauthorized: (msg: string) => unknown;
-  badRequest: (msg: string) => unknown;
-  notFound: (msg: string) => unknown;
-}
+export const articleControllerFactory = ({
+  strapi,
+}: {
+  strapi: Core.Strapi;
+}) => ({
+  async create(ctx: Record<string, unknown>) {
+    const user = (ctx as { state: { user?: { id: number } } }).state?.user;
+    if (!user)
+      return (ctx as { unauthorized: (m: string) => unknown }).unauthorized(
+        'You must be logged in',
+      );
 
-/**
- * Interface for Article Controller to allow typed access to super methods
- */
-interface ArticleController {
-  super: {
-    create: (ctx: StrapiContext) => Promise<unknown>;
-    find: (ctx: StrapiContext) => Promise<unknown>;
-    findOne: (ctx: StrapiContext) => Promise<unknown>;
-    update: (ctx: StrapiContext) => Promise<unknown>;
-    delete: (ctx: StrapiContext) => Promise<unknown>;
-  };
-}
-
-/**
- * Controller logic exported for unit testing
- */
-export const articleControllerFactory = ({ strapi }: { strapi: Core.Strapi }) => ({
-  async create(this: ArticleController, ctx: StrapiContext) {
-    const user = ctx.state.user;
-
-    if (!user) {
-      return ctx.unauthorized('You must be logged in to create an article');
-    }
-
-    const author = await strapi.documents('api::author.author').findFirst({
+    let author = await strapi.documents('api::author.author').findFirst({
       filters: { user: { id: user.id } },
     });
 
     if (!author) {
-      return ctx.badRequest('No author profile found for this user');
+      const userData = await strapi.db
+        .query('plugin::users-permissions.user')
+        .findOne({ where: { id: user.id } });
+      author = await strapi.documents('api::author.author').create({
+        data: {
+          name: userData?.username || `User_${user.id}`,
+          email: userData?.email || '',
+          user: user.id,
+        },
+      });
     }
 
-    const bodyData = (ctx.request.body.data as Record<string, unknown>) || {};
-    ctx.request.body.data = {
+    const body = (
+      ctx as { request: { body: { data: Record<string, unknown> } } }
+    ).request.body;
+    const bodyData = body.data || {};
+    const requestedStatus = bodyData.status as string;
+    const title = (bodyData.title as string) || '';
+    const slug =
+      (bodyData.slug as string) ||
+      title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '') ||
+      `article-${Date.now()}`;
+
+    body.data = {
       ...bodyData,
       author: author.documentId,
+      slug,
     };
 
-    return await this.super.create(ctx);
+    const self = this as unknown as {
+      super: {
+        create: (c: unknown) => Promise<{ data: { documentId: string } }>;
+      };
+    };
+    const result = await self.super.create(ctx);
+
+    if (requestedStatus === 'published' && result?.data?.documentId) {
+      await strapi.documents('api::article.article').publish({
+        documentId: result.data.documentId,
+      });
+    }
+
+    return result;
   },
 
-  async find(this: ArticleController, ctx: StrapiContext) {
-    const user = ctx.state.user;
-    const { ownArticles } = ctx.query;
+  async find(ctx: Record<string, unknown>) {
+    const state = (ctx as { state: { user?: { id: number } } }).state;
+    const query = ctx as { query: Record<string, unknown> };
+    const user = state?.user;
+    const ownArticles = query.query?.ownArticles;
 
-    const isOwnerRequest = user && ownArticles === 'true';
-
-    if (isOwnerRequest) {
+    if (user && ownArticles === 'true') {
+      // Owner view: show all own articles (drafts + published)
       const author = await strapi.documents('api::author.author').findFirst({
         filters: { user: { id: user.id } },
       });
 
-      if (author) {
-        const currentFilters = (ctx.query.filters as Record<string, unknown>) || {};
-        ctx.query.filters = {
-          ...currentFilters,
-          author: { documentId: author.documentId },
-        };
-      }
+      if (!author) return { data: [], meta: { pagination: { total: 0 } } };
+
+      const currentFilters =
+        (query.query.filters as Record<string, unknown>) || {};
+      query.query.filters = {
+        ...currentFilters,
+        author: { documentId: author.documentId },
+      };
     } else {
-      const currentFilters = (ctx.query.filters as Record<string, unknown>) || {};
-      ctx.query.filters = {
+      // Public view: only published articles, hide author email
+      const currentFilters =
+        (query.query.filters as Record<string, unknown>) || {};
+      query.query.filters = {
         ...currentFilters,
         status: 'published',
       };
 
-      const currentPopulate = ctx.query.populate as unknown;
+      const currentPopulate = query.query.populate;
       if (typeof currentPopulate === 'string' && currentPopulate === 'author') {
-        ctx.query.populate = { author: { fields: ['name', 'bio'] } };
-      } else if (typeof currentPopulate === 'object' && currentPopulate !== null) {
-        ctx.query.populate = {
+        query.query.populate = { author: { fields: ['name', 'bio'] } };
+      } else if (Array.isArray(currentPopulate)) {
+        const newPopulate: Record<string, unknown> = {};
+        (currentPopulate as string[]).forEach((p: string) => {
+          if (p === 'author') newPopulate.author = { fields: ['name', 'bio'] };
+          else newPopulate[p] = { populate: true };
+        });
+        query.query.populate = newPopulate;
+      } else if (
+        typeof currentPopulate === 'object' &&
+        currentPopulate !== null
+      ) {
+        query.query.populate = {
           ...(currentPopulate as Record<string, unknown>),
           author: { fields: ['name', 'bio'] },
         };
       }
     }
 
-    return await this.super.find(ctx);
+    const self = this as unknown as {
+      super: { find: (c: unknown) => Promise<unknown> };
+    };
+    return await self.super.find(ctx);
   },
 
-  async findOne(this: ArticleController, ctx: StrapiContext) {
-    const user = ctx.state.user;
-    const { ownArticles } = ctx.query;
+  async findOne(ctx: Record<string, unknown>) {
+    const state = (ctx as { state: { user?: { id: number } } }).state;
+    const query = ctx as { query: Record<string, unknown> };
+    const user = state?.user;
+    const ownArticles = query.query?.ownArticles;
 
-    const isOwnerRequest = user && ownArticles === 'true';
-
-    if (isOwnerRequest) {
+    if (user && ownArticles === 'true') {
       const author = await strapi.documents('api::author.author').findFirst({
         filters: { user: { id: user.id } },
       });
 
-      if (author) {
-        const currentFilters = (ctx.query.filters as Record<string, unknown>) || {};
-        ctx.query.filters = {
-          ...currentFilters,
-          author: { documentId: author.documentId },
-        };
-      }
+      if (!author)
+        return (ctx as { notFound: (m: string) => unknown }).notFound(
+          'Author profile not found',
+        );
+
+      const currentFilters =
+        (query.query.filters as Record<string, unknown>) || {};
+      query.query.filters = {
+        ...currentFilters,
+        author: { documentId: author.documentId },
+      };
     } else {
-      const currentFilters = (ctx.query.filters as Record<string, unknown>) || {};
-      ctx.query.filters = {
+      // Public view: only published articles
+      const currentFilters =
+        (query.query.filters as Record<string, unknown>) || {};
+      query.query.filters = {
         ...currentFilters,
         status: 'published',
       };
-
-      const currentPopulate = ctx.query.populate as unknown;
-      if (typeof currentPopulate === 'string' && currentPopulate === 'author') {
-        ctx.query.populate = { author: { fields: ['name', 'bio'] } };
-      } else if (typeof currentPopulate === 'object' && currentPopulate !== null) {
-        ctx.query.populate = {
-          ...(currentPopulate as Record<string, unknown>),
-          author: { fields: ['name', 'bio'] },
-        };
-      }
     }
 
-    return await this.super.findOne(ctx);
+    const self = this as unknown as {
+      super: { findOne: (c: unknown) => Promise<unknown> };
+    };
+    return await self.super.findOne(ctx);
   },
 
-  async update(this: ArticleController, ctx: StrapiContext) {
-    const user = ctx.state.user;
-    const { id } = ctx.params;
+  async update(ctx: Record<string, unknown>) {
+    const state = (ctx as { state: { user?: { id: number } } }).state;
+    const params = (ctx as { params: Record<string, string> }).params;
+    const user = state?.user;
 
-    if (!user) {
-      return ctx.unauthorized('You must be logged in to update an article');
-    }
+    if (!user)
+      return (ctx as { unauthorized: (m: string) => unknown }).unauthorized(
+        'You must be logged in',
+      );
 
     const author = await strapi.documents('api::author.author').findFirst({
       filters: { user: { id: user.id } },
     });
-
-    if (!author) {
-      return ctx.badRequest('No author profile found');
-    }
+    if (!author)
+      return (ctx as { badRequest: (m: string) => unknown }).badRequest(
+        'No author profile found',
+      );
 
     const article = await strapi.documents('api::article.article').findOne({
-      documentId: id,
+      documentId: params.id,
       status: 'draft',
       filters: { author: { documentId: author.documentId } },
     });
+    if (!article)
+      return (ctx as { notFound: (m: string) => unknown }).notFound(
+        'Article not found or you do not have permission',
+      );
 
-    if (!article) {
-      return ctx.notFound('Article not found or you do not have permission');
-    }
-
-    return await this.super.update(ctx);
+    const self = this as unknown as {
+      super: { update: (c: unknown) => Promise<unknown> };
+    };
+    return await self.super.update(ctx);
   },
 
-  async delete(this: ArticleController, ctx: StrapiContext) {
-    const user = ctx.state.user;
-    const { id } = ctx.params;
+  async delete(ctx: Record<string, unknown>) {
+    const state = (ctx as { state: { user?: { id: number } } }).state;
+    const params = (ctx as { params: Record<string, string> }).params;
+    const user = state?.user;
 
-    if (!user) {
-      return ctx.unauthorized('You must be logged in to delete an article');
-    }
+    if (!user)
+      return (ctx as { unauthorized: (m: string) => unknown }).unauthorized(
+        'You must be logged in',
+      );
 
     const author = await strapi.documents('api::author.author').findFirst({
       filters: { user: { id: user.id } },
     });
-
-    if (!author) {
-      return ctx.badRequest('No author profile found');
-    }
+    if (!author)
+      return (ctx as { badRequest: (m: string) => unknown }).badRequest(
+        'No author profile found',
+      );
 
     const article = await strapi.documents('api::article.article').findOne({
-      documentId: id,
+      documentId: params.id,
       status: 'draft',
       filters: { author: { documentId: author.documentId } },
     });
+    if (!article)
+      return (ctx as { notFound: (m: string) => unknown }).notFound(
+        'Article not found or you do not have permission',
+      );
 
-    if (!article) {
-      return ctx.notFound('Article not found or you do not have permission');
-    }
-
-    return await this.super.delete(ctx);
+    const self = this as unknown as {
+      super: { delete: (c: unknown) => Promise<unknown> };
+    };
+    return await self.super.delete(ctx);
   },
 });
 
 export default factories.createCoreController(
   'api::article.article',
-  articleControllerFactory as unknown as Parameters<typeof factories.createCoreController>[1]
+  articleControllerFactory as unknown as Parameters<
+    typeof factories.createCoreController
+  >[1],
 );

@@ -10,7 +10,9 @@ export const useApiClient = () => {
     path: string,
     options: NitroFetchOptions<NitroFetchRequest> = {},
   ) => {
-    const headers: Record<string, string> = { ...(options.headers as Record<string, string>) };
+    const headers: Record<string, string> = {
+      ...(options.headers as Record<string, string>),
+    };
 
     if (authStore.token) {
       headers['Authorization'] = `Bearer ${authStore.token}`;

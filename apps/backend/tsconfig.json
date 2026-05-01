@@ -11,7 +11,7 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "noEmitOnError": true,
-    "noImplicitThis": true,
+    "noImplicitThis": false,
     "outDir": "dist",
     "rootDir": "."
   },
