@@ -79,14 +79,14 @@ Legenda:
 
 ## Etap 3 - modele danych i relacje
 
-- [ ] Dodac pola `title`, `slug`, `content`, `status`, `publishedAt`, `searchText` w `Article`.
-- [ ] Dodac relacje many-to-one `Article -> Author`.
-- [ ] Dodac relacje many-to-many `Article <-> Tag`.
-- [ ] Dodac pola `name`, `email`, `bio` w `Author`.
-- [ ] Dodac relacje `Author -> User`.
-- [ ] Dodac pola `name`, `slug` w `Tag`.
-- [ ] Potwierdzic, ze relacje dzialaja w API.
-- [ ] Zaktualizowac `docs/prompts.md` po Etapie 3.
+- [*] Dodac pola `title`, `slug`, `content`, `status`, `publishedAt`, `searchText` w `Article`.
+- [*] Dodac relacje many-to-one `Article -> Author`.
+- [*] Dodac relacje many-to-many `Article <-> Tag`.
+- [*] Dodac pola `name`, `email`, `bio` w `Author`.
+- [*] Dodac relacje `Author -> User`.
+- [*] Dodac pola `name`, `slug` w `Tag`.
+- [*] Potwierdzic, ze relacje dzialaja w API.
+- [*] Zaktualizowac `docs/prompts.md` po Etapie 3.
 
 ## Etap 4 - rejestracja, logowanie i JWT
 
