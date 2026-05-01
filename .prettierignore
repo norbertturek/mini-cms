@@ -10,4 +10,5 @@ coverage/
 
 pnpm-lock.yaml
 apps/backend/types/generated/
+apps/backend/.strapi-updater.json
 .agents/skills/

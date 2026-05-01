@@ -62,8 +62,8 @@ Legenda:
 - [*] Utworzyc projektowy skill ship.
 - [*] Zweryfikowac mozliwosc zabezpieczenia `main`.
 - [*] Odnotowac blocker branch protection dla prywatnego repo bez GitHub Pro.
-- [ ] Otworzyc PR z dokumentacja, rules i skills.
-- [ ] Zaktualizowac `docs/prompts.md` po Etapie 1.6.
+- [*] Otworzyc PR z dokumentacja, rules i skills.
+- [*] Zaktualizowac `docs/prompts.md` po Etapie 1.6.
 
 ## Etap 2 - backend Strapi 5
 
