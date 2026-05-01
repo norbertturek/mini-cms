@@ -1,0 +1,14 @@
+---
+description: Nuxt 4 frontend rules
+globs:
+  - "apps/frontend/**/*"
+alwaysApply: false
+---
+
+- Follow Nuxt 4 `app/` directory conventions.
+- Pages belong in `app/pages`, components in `app/components`, composables in `app/composables`, stores in `app/stores`.
+- Use `runtimeConfig.public` only for browser-safe values.
+- Do not expose secrets to the client.
+- Use Pinia for auth state and `useCookie` for SSR-readable auth persistence.
+- Add loading, error and empty states for data-driven UI.
+- Prefer reusable components listed in `docs/implementation/IMPLEMENTATION_PLAN.md`.

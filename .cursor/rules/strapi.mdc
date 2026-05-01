@@ -1,0 +1,14 @@
+---
+description: Strapi 5 backend rules
+globs:
+  - "apps/backend/**/*"
+alwaysApply: false
+---
+
+- Follow Strapi 5 conventions and generated project structure.
+- Use Document Service API for custom data access.
+- Do not introduce new Entity Service API usage.
+- Keep database and secret config environment-driven.
+- Enforce author ownership on the backend.
+- Public APIs should expose only published articles unless explicitly documented.
+- Do not hand-edit generated Strapi type files.

@@ -45,7 +45,9 @@ mini-cms/
   .prettierrc
   eslint.config.mjs
   docs/
-    IMPLEMENTATION_PLAN.md
+    implementation/
+      IMPLEMENTATION_PLAN.md
+      archive/
     PRODUCT_DECISIONS.md
     TASKS.md
     prompts.md
