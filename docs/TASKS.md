@@ -67,15 +67,15 @@ Legenda:
 
 ## Etap 2 - backend Strapi 5
 
-- [ ] Skonfigurowac Strapi 5 w `apps/backend`.
-- [ ] Skonfigurowac polaczenie Strapi z PostgreSQL.
-- [ ] Dodac kolekcje `Article`.
-- [ ] Dodac kolekcje `Author`.
-- [ ] Dodac kolekcje `Tag`.
-- [ ] Wlaczyc Draft & Publish dla `Article`.
-- [ ] Dodac pole techniczne `searchText`.
-- [ ] Potwierdzic, ze Strapi startuje z PostgreSQL.
-- [ ] Zaktualizowac `docs/prompts.md` po Etapie 2.
+- [*] Skonfigurowac Strapi 5 w `apps/backend`.
+- [*] Skonfigurowac polaczenie Strapi z PostgreSQL.
+- [*] Dodac kolekcje `Article`.
+- [*] Dodac kolekcje `Author`.
+- [*] Dodac kolekcje `Tag`.
+- [*] Wlaczyc Draft & Publish dla `Article`.
+- [*] Dodac pole techniczne `searchText`.
+- [*] Potwierdzic, ze Strapi startuje z PostgreSQL.
+- [*] Zaktualizowac `docs/prompts.md` po Etapie 2.
 
 ## Etap 3 - modele danych i relacje
 
