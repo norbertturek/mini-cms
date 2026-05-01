@@ -33,3 +33,11 @@
 - Every PR should include verification notes.
 - Run `pnpm format:check`, `pnpm lint`, `pnpm test` and `pnpm build` before requesting review.
 - Code review should prioritize bugs, security, ownership, CI risks, missing tests and framework-standard violations.
+
+## Security & Test Integrity Rules
+
+- **SACRED TESTS**: Unit tests covering authorization, data ownership, and privacy (e.g., `apps/backend/tests/article.test.ts`) are sacred.
+- **DO NOT MODIFY** these tests to "fix" a failing build caused by logic changes. If a security test fails, the logic change is likely a regression or a security vulnerability.
+- Any modification to security-critical tests requires explicit user approval and a detailed security impact analysis.
+- **OWNERSHIP**: Every mutation (create/update/delete) in the backend MUST verify the requester's ownership.
+- **PRIVACY**: Publicly exposed relationships (like `author`) must be explicitly filtered to prevent leaking PII (e.g., email).
