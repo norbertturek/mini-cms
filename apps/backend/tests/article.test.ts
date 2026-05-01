@@ -67,7 +67,7 @@ describe('Article Controller - Security & Ownership', () => {
   const initController = (): MockController => {
     // Initialize controller logic
     const controllerLogic = articleControllerFactory({ strapi: mockStrapi });
-    
+
     // Bind mockSuper to simulate Strapi core behavior
     const controller = {
       ...controllerLogic,
@@ -83,7 +83,9 @@ describe('Article Controller - Security & Ownership', () => {
     mockSuper.findOne.mockResolvedValue({ data: {} });
   });
 
-  const createMockCtx = (overrides: Partial<StrapiContext> = {}): StrapiContext => {
+  const createMockCtx = (
+    overrides: Partial<StrapiContext> = {},
+  ): StrapiContext => {
     return {
       state: {},
       query: {},
@@ -149,12 +151,16 @@ describe('Article Controller - Security & Ownership', () => {
 
       await controller.update.call(controller, ctx);
 
-      const findOneCall = (mockStrapi.documents as Mock)('api::article.article').findOne;
-      expect(findOneCall).toHaveBeenCalledWith(expect.objectContaining({
-        documentId: 'art-1',
-        status: 'draft',
-        filters: { author: { documentId: 'author-1' } }
-      }));
+      const findOneCall = (mockStrapi.documents as Mock)(
+        'api::article.article',
+      ).findOne;
+      expect(findOneCall).toHaveBeenCalledWith(
+        expect.objectContaining({
+          documentId: 'art-1',
+          status: 'draft',
+          filters: { author: { documentId: 'author-1' } },
+        }),
+      );
       expect(mockSuper.update).toHaveBeenCalledWith(ctx);
     });
 
@@ -172,7 +178,9 @@ describe('Article Controller - Security & Ownership', () => {
 
       await controller.update.call(controller, ctx);
 
-      expect(ctx.notFound).toHaveBeenCalledWith('Article not found or you do not have permission');
+      expect(ctx.notFound).toHaveBeenCalledWith(
+        'Article not found or you do not have permission',
+      );
       expect(mockSuper.update).not.toHaveBeenCalled();
     });
   });
