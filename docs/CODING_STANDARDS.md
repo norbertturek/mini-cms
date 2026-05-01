@@ -65,3 +65,9 @@
   - auth or ownership rule
   - login or registration form behavior
 - CI must stay green before opening a PR for review.
+- **SACRED SECURITY TESTS**:
+  - Tests covering authorization, data ownership, and privacy are considered "Sacred".
+  - These tests represent the "Security Contract" of the application.
+  - **NEVER modify or delete** these tests to pass a build after a logic change.
+  - A failure in a Sacred Test indicates a security regression that must be fixed in the application code, not by weakening the test.
+  - Modifying these tests requires a formal security review and explicit owner approval.
