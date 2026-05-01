@@ -33,39 +33,9 @@ export default factories.createCoreController(
       const user = ctx.state.user;
       const { ownArticles } = ctx.query;
 
-      // Ownership filtering: only if explicitly requested (e.g. for dashboard)
-      if (user && ownArticles === 'true') {
-        const author = await strapi.documents('api::author.author').findFirst({
-          filters: { user: { id: user.id } },
-        });
+      const isOwnerRequest = user && ownArticles === 'true';
 
-        if (author) {
-          const currentFilters = (ctx.query.filters as Record<string, unknown>) || {};
-          ctx.query.filters = {
-            ...currentFilters,
-            author: { documentId: author.documentId },
-          };
-        }
-      } else if (!user || ownArticles !== 'true') {
-        // Public view (or logged in user browsing home): only published articles
-        // Unless it's an authenticated request wanting more, but usually home is published only.
-        const currentFilters = (ctx.query.filters as Record<string, unknown>) || {};
-        ctx.query.filters = {
-          ...currentFilters,
-          status: 'published',
-        };
-      }
-
-      const response = await super.find(ctx);
-      return response;
-    },
-
-    async findOne(ctx) {
-      const user = ctx.state.user;
-      const { ownArticles } = ctx.query;
-
-      if (user && ownArticles === 'true') {
-        // Ensure the article belongs to the user's author profile
+      if (isOwnerRequest) {
         const author = await strapi.documents('api::author.author').findFirst({
           filters: { user: { id: user.id } },
         });
@@ -78,12 +48,64 @@ export default factories.createCoreController(
           };
         }
       } else {
-        // Public view: only published articles
+        // Public view: only published articles and restricted author fields
         const currentFilters = (ctx.query.filters as Record<string, unknown>) || {};
         ctx.query.filters = {
           ...currentFilters,
           status: 'published',
         };
+
+        // Enforce privacy: only name and bio for authors in public view
+        const currentPopulate = (ctx.query.populate as any) || {};
+        if (typeof currentPopulate === 'string' && currentPopulate === 'author') {
+          ctx.query.populate = { author: { fields: ['name', 'bio'] } };
+        } else if (typeof currentPopulate === 'object') {
+          ctx.query.populate = {
+            ...currentPopulate,
+            author: { fields: ['name', 'bio'] },
+          };
+        }
+      }
+
+      const response = await super.find(ctx);
+      return response;
+    },
+
+    async findOne(ctx) {
+      const user = ctx.state.user;
+      const { ownArticles } = ctx.query;
+
+      const isOwnerRequest = user && ownArticles === 'true';
+
+      if (isOwnerRequest) {
+        const author = await strapi.documents('api::author.author').findFirst({
+          filters: { user: { id: user.id } },
+        });
+
+        if (author) {
+          const currentFilters = (ctx.query.filters as Record<string, unknown>) || {};
+          ctx.query.filters = {
+            ...currentFilters,
+            author: { documentId: author.documentId },
+          };
+        }
+      } else {
+        // Public view: only published articles and restricted author fields
+        const currentFilters = (ctx.query.filters as Record<string, unknown>) || {};
+        ctx.query.filters = {
+          ...currentFilters,
+          status: 'published',
+        };
+
+        const currentPopulate = (ctx.query.populate as any) || {};
+        if (typeof currentPopulate === 'string' && currentPopulate === 'author') {
+          ctx.query.populate = { author: { fields: ['name', 'bio'] } };
+        } else if (typeof currentPopulate === 'object') {
+          ctx.query.populate = {
+            ...currentPopulate,
+            author: { fields: ['name', 'bio'] },
+          };
+        }
       }
 
       return await super.findOne(ctx);
@@ -105,9 +127,10 @@ export default factories.createCoreController(
         return ctx.badRequest('No author profile found');
       }
 
-      // Check if the article exists and belongs to this author
+      // Check if the article exists and belongs to this author (search in all statuses)
       const article = await strapi.documents('api::article.article').findOne({
         documentId: id,
+        status: 'draft', // Strapi 5: 'draft' finds the working version (latest)
         filters: { author: { documentId: author.documentId } },
       });
 
@@ -136,6 +159,7 @@ export default factories.createCoreController(
 
       const article = await strapi.documents('api::article.article').findOne({
         documentId: id,
+        status: 'draft',
         filters: { author: { documentId: author.documentId } },
       });
 
