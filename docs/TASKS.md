@@ -105,15 +105,15 @@ Legenda:
 
 ## Etap 5 - autoryzacja i ownership
 
-- [ ] Skonfigurowac minimalne role Strapi.
-- [ ] Zabezpieczyc tworzenie artykulu JWT.
-- [ ] Zabezpieczyc edycje artykulu JWT.
-- [ ] Przy tworzeniu przypisywac autora z zalogowanego usera.
-- [ ] Przy listowaniu adminowym zwracac tylko artykuly zalogowanego autora.
-- [ ] Przy edycji blokowac cudze artykuly.
-- [ ] Publiczne endpointy ograniczyc do opublikowanych artykulow.
-- [ ] Ukryc wrazliwe pola autora w publicznym API.
-- [ ] Zaktualizowac `docs/prompts.md` po Etapie 5.
+- [*] Skonfigurowac minimalne role Strapi.
+- [*] Zabezpieczyc tworzenie artykulu JWT.
+- [*] Zabezpieczyc edycje artykulu JWT.
+- [*] Przy tworzeniu przypisywac autora z zalogowanego usera.
+- [*] Przy listowaniu adminowym zwracac tylko artykuly zalogowanego autora.
+- [*] Przy edycji blokowac cudze artykuly.
+- [*] Publiczne endpointy ograniczyc do opublikowanych artykulow.
+- [*] Ukryc wrazliwe pola autora w publicznym API.
+- [*] Zaktualizowac `docs/prompts.md` po Etapie 5.
 
 ## Etap 6 - custom search API
 
@@ -131,13 +131,13 @@ Legenda:
 
 ## Etap 7 - frontend Nuxt 4
 
-- [ ] Skonfigurowac Nuxt 4 w `apps/frontend`.
-- [ ] Dodac Tailwind CSS.
-- [ ] Dodac Pinia.
-- [ ] Dodac strone `/`.
+- [*] Skonfigurowac Nuxt 4 w `apps/frontend`.
+- [*] Dodac Tailwind CSS.
+- [*] Dodac Pinia.
+- [*] Dodac strone `/`.
 - [ ] Dodac strone `/articles/[slug]`.
-- [ ] Dodac strone `/admin/articles`.
-- [ ] Dodac strone `/admin/articles/new`.
+- [*] Dodac strone `/admin/articles`.
+- [*] Dodac strone `/admin/articles/create`.
 - [ ] Dodac strone `/admin/articles/[id]/edit`.
 - [ ] Dodac strone `/admin/articles/[id]/preview`.
 - [ ] Dodac middleware `auth`.
@@ -146,13 +146,13 @@ Legenda:
 
 ## Etap 8 - frontend auth i dane
 
-- [ ] Dodac `useApiClient`.
-- [ ] Dodac `useAuth`.
+- [*] Dodac `useApiClient`.
+- [*] Dodac `useAuth`.
 - [ ] Dodac `useArticles`.
 - [ ] Dodac `useArticle`.
 - [ ] Dodac `useAdminArticles`.
 - [ ] Dodac `useTags`.
-- [ ] Dodac typy `Article`, `Author`, `Tag`.
+- [*] Dodac typy `Article`, `Author`, `Tag`.
 - [ ] Dodac typy odpowiedzi Strapi.
 - [ ] Dodac typy paginacji.
 - [ ] Potwierdzic, ze odswiezenie strony w panelu nie gubi sesji.
