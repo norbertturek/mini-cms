@@ -25,13 +25,13 @@ Legenda:
 - [*] Potwierdzic lokalny adres backendu.
 - [*] Potwierdzic lokalny adres frontendu.
 - [*] Uruchomic `pnpm lint`.
-- [*] Zaktualizowac `prompts.md` po zakonczeniu Etapu 1.
+- [*] Zaktualizowac `docs/prompts.md` po zakonczeniu Etapu 1.
 
 ## Etap 1.5 - repozytorium GitHub i CI
 
 - [*] Zainicjalizowac lokalne repozytorium git.
 - [*] Sprawdzic, czy `.gitignore` wyklucza sekrety, `node_modules`, build outputy i dane bazy.
-- [ ] Dodac pierwszy commit z inicjalizacja projektu.
+- [*] Dodac pierwszy commit z inicjalizacja projektu.
 - [ ] Utworzyc repozytorium na GitHub.
 - [ ] Dodac remote GitHub.
 - [ ] Wypchnac kod na GitHub.
@@ -43,7 +43,7 @@ Legenda:
 - [*] Dodac PostgreSQL service container w CI, jezeli testy backendu beda go wymagac.
 - [ ] Uruchomic pipeline na GitHub.
 - [ ] Potwierdzic, ze pipeline przechodzi.
-- [ ] Zaktualizowac `prompts.md` po repozytorium, pushu i pierwszym CI.
+- [ ] Zaktualizowac `docs/prompts.md` po repozytorium, pushu i pierwszym CI.
 
 ## Etap 2 - backend Strapi 5
 
@@ -55,7 +55,7 @@ Legenda:
 - [ ] Wlaczyc Draft & Publish dla `Article`.
 - [ ] Dodac pole techniczne `searchText`.
 - [ ] Potwierdzic, ze Strapi startuje z PostgreSQL.
-- [ ] Zaktualizowac `prompts.md` po Etapie 2.
+- [ ] Zaktualizowac `docs/prompts.md` po Etapie 2.
 
 ## Etap 3 - modele danych i relacje
 
@@ -66,7 +66,7 @@ Legenda:
 - [ ] Dodac relacje `Author -> User`.
 - [ ] Dodac pola `name`, `slug` w `Tag`.
 - [ ] Potwierdzic, ze relacje dzialaja w API.
-- [ ] Zaktualizowac `prompts.md` po Etapie 3.
+- [ ] Zaktualizowac `docs/prompts.md` po Etapie 3.
 
 ## Etap 4 - rejestracja, logowanie i JWT
 
@@ -81,7 +81,7 @@ Legenda:
 - [ ] Przechowywac JWT w cookie przez `useCookie`.
 - [ ] Dodac helper autoryzowanych requestow z naglowkiem `Authorization`.
 - [ ] Potwierdzic flow: rejestracja, logowanie, wylogowanie.
-- [ ] Zaktualizowac `prompts.md` po Etapie 4.
+- [ ] Zaktualizowac `docs/prompts.md` po Etapie 4.
 
 ## Etap 5 - autoryzacja i ownership
 
@@ -93,7 +93,7 @@ Legenda:
 - [ ] Przy edycji blokowac cudze artykuly.
 - [ ] Publiczne endpointy ograniczyc do opublikowanych artykulow.
 - [ ] Ukryc wrazliwe pola autora w publicznym API.
-- [ ] Zaktualizowac `prompts.md` po Etapie 5.
+- [ ] Zaktualizowac `docs/prompts.md` po Etapie 5.
 
 ## Etap 6 - custom search API
 
@@ -107,7 +107,7 @@ Legenda:
 - [ ] Zwracac tylko opublikowane artykuly.
 - [ ] Sortowac po `publishedAt desc`.
 - [ ] Dodac paginacje `page` i `pageSize`.
-- [ ] Zaktualizowac `prompts.md` po Etapie 6.
+- [ ] Zaktualizowac `docs/prompts.md` po Etapie 6.
 
 ## Etap 7 - frontend Nuxt 4
 
@@ -122,7 +122,7 @@ Legenda:
 - [ ] Dodac strone `/admin/articles/[id]/preview`.
 - [ ] Dodac middleware `auth`.
 - [ ] Potwierdzic pelny flow UI bez recznej pracy w Strapi.
-- [ ] Zaktualizowac `prompts.md` po Etapie 7.
+- [ ] Zaktualizowac `docs/prompts.md` po Etapie 7.
 
 ## Etap 8 - frontend auth i dane
 
@@ -136,7 +136,7 @@ Legenda:
 - [ ] Dodac typy odpowiedzi Strapi.
 - [ ] Dodac typy paginacji.
 - [ ] Potwierdzic, ze odswiezenie strony w panelu nie gubi sesji.
-- [ ] Zaktualizowac `prompts.md` po Etapie 8.
+- [ ] Zaktualizowac `docs/prompts.md` po Etapie 8.
 
 ## Etap 9 - UI i komponenty
 
@@ -159,7 +159,7 @@ Legenda:
 - [ ] Dodac `AdminArticleTable`.
 - [ ] Dodac `AuthForm`.
 - [ ] Uzyc `ArticleForm` wspolnie dla tworzenia i edycji.
-- [ ] Zaktualizowac `prompts.md` po Etapie 9.
+- [ ] Zaktualizowac `docs/prompts.md` po Etapie 9.
 
 ## Etap 10 - testy
 
@@ -169,7 +169,7 @@ Legenda:
 - [ ] Uruchomic `pnpm --filter backend test`.
 - [ ] Uruchomic `pnpm --filter frontend test`.
 - [ ] Uruchomic `pnpm test`.
-- [ ] Zaktualizowac `prompts.md` po Etapie 10.
+- [ ] Zaktualizowac `docs/prompts.md` po Etapie 10.
 
 ## Etap 11 - build, lint i CI
 
@@ -178,7 +178,7 @@ Legenda:
 - [ ] Uruchomic `pnpm build`.
 - [ ] Rozszerzyc CI o wymagania z kolejnych etapow.
 - [ ] Potwierdzic, ze CI przechodzi na GitHub.
-- [ ] Zaktualizowac `prompts.md` po Etapie 11.
+- [ ] Zaktualizowac `docs/prompts.md` po Etapie 11.
 
 ## Etap 12 - dokumentacja
 
@@ -190,6 +190,6 @@ Legenda:
 - [ ] Opisac, co zrobilbym inaczej majac wiecej czasu.
 - [ ] Opisac swiadome trade-offy.
 - [ ] Upewnic sie, ze `README.md` miesci sie w limicie ok. 1 strony.
-- [ ] Upewnic sie, ze `prompts.md` jest aktualny.
-- [ ] Upewnic sie, ze `PRODUCT_DECISIONS.md` jest aktualny.
-- [ ] Zaktualizowac `prompts.md` po Etapie 12.
+- [ ] Upewnic sie, ze `docs/prompts.md` jest aktualny.
+- [ ] Upewnic sie, ze `docs/PRODUCT_DECISIONS.md` jest aktualny.
+- [ ] Zaktualizowac `docs/prompts.md` po Etapie 12.

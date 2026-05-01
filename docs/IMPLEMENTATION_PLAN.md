@@ -16,7 +16,7 @@ Zbudowac dzialajacy mini-CMS dla artykulow blogowych jako `pnpm workspace` z apl
 - Podglad wlasnego artykulu, takze draftu, z poziomu panelu autora.
 - Po publikacji artykul jest widoczny publicznie jako najnowszy wedlug `publishedAt`.
 - Minimum 2 sensowne testy.
-- Dokumentacja `README.md` i `prompts.md`.
+- Dokumentacja `README.md` i `docs/prompts.md`.
 
 ## Stack
 
@@ -44,10 +44,12 @@ mini-cms/
   .gitignore
   .prettierrc
   eslint.config.mjs
-  IMPLEMENTATION_PLAN.md
-  PRODUCT_DECISIONS.md
+  docs/
+    IMPLEMENTATION_PLAN.md
+    PRODUCT_DECISIONS.md
+    TASKS.md
+    prompts.md
   README.md
-  prompts.md
   .github/
     workflows/
       ci.yml
@@ -70,7 +72,7 @@ mini-cms/
 - Uruchomic lokalnie backend przez `pnpm dev:backend`.
 - Uruchomic lokalnie frontend przez `pnpm dev:frontend`.
 - Potwierdzic adresy lokalne do weryfikacji, np. Strapi `http://localhost:1337` i Nuxt `http://localhost:3000`.
-- Zaktualizowac `prompts.md` po zakonczeniu inicjalizacji projektu i konfiguracji.
+- Zaktualizowac `docs/prompts.md` po zakonczeniu inicjalizacji projektu i konfiguracji.
 - Kryterium akceptacji: `docker compose up -d postgres`, `pnpm install`, `pnpm lint`, `pnpm dev:backend` i `pnpm dev:frontend` dzialaja, a frontend oraz backend da sie otworzyc lokalnie.
 
 ## Etap 1.5 - repozytorium GitHub i CI dla inicjalizacji
@@ -88,7 +90,7 @@ mini-cms/
   - `pnpm build`
 - Jezeli backendowe testy wymagaja bazy, dodac PostgreSQL jako service container z healthcheckiem.
 - Uruchomic pipeline na GitHub i potwierdzic wynik.
-- Zaktualizowac `prompts.md` po utworzeniu repozytorium, pushu i pierwszym uruchomieniu CI.
+- Zaktualizowac `docs/prompts.md` po utworzeniu repozytorium, pushu i pierwszym uruchomieniu CI.
 - Kryterium akceptacji: kod inicjalizacyjny jest na GitHub, CI istnieje i sprawdza lint, testy oraz build.
 
 ## Etap 2 - backend Strapi 5
@@ -311,7 +313,7 @@ Kryterium akceptacji: sa minimum 2 sensowne testy, a `pnpm test` przechodzi.
   - `pnpm lint`
   - `pnpm test`
   - `pnpm build`
-- Zaktualizowac `prompts.md` po kazdej wiekszej zmianie CI lub konfiguracji jakosci.
+- Zaktualizowac `docs/prompts.md` po kazdej wiekszej zmianie CI lub konfiguracji jakosci.
 - Kryterium akceptacji: lokalnie i w CI przechodza lint, testy i build.
 
 ## Etap 12 - dokumentacja
@@ -322,13 +324,13 @@ Kryterium akceptacji: sa minimum 2 sensowne testy, a `pnpm test` przechodzi.
   - jakie bledy AI wykrylem i poprawilem
   - co zrobilbym inaczej majac wiecej czasu
   - trade-offy, ktore swiadomie wybralem
-- Prowadzic `prompts.md` jako log pracy z AI:
+- Prowadzic `docs/prompts.md` jako log pracy z AI:
   - data
   - godzina
   - input uzytkownika
   - jednozdaniowe podsumowanie wykonanej pracy
-- Aktualizowac `prompts.md` po inicjalizacji projektu, zmianach konfiguracji, zakonczeniu Etapu 1, utworzeniu repozytorium GitHub, pierwszym pipeline CI oraz po kazdym istotnym etapie implementacji.
-- Utrzymywac `PRODUCT_DECISIONS.md` jako miejsce na decyzje produktowe, security, UI i ryzyka.
+- Aktualizowac `docs/prompts.md` po inicjalizacji projektu, zmianach konfiguracji, zakonczeniu Etapu 1, utworzeniu repozytorium GitHub, pierwszym pipeline CI oraz po kazdym istotnym etapie implementacji.
+- Utrzymywac `docs/PRODUCT_DECISIONS.md` jako miejsce na decyzje produktowe, security, UI i ryzyka.
 - Kryterium akceptacji: dokumentacja spelnia wymagania zadania i pokazuje realny proces pracy z AI.
 
 ## Definition of Done
@@ -353,5 +355,5 @@ Kryterium akceptacji: sa minimum 2 sensowne testy, a `pnpm test` przechodzi.
 - Sa minimum 2 sensowne testy.
 - `pnpm lint`, `pnpm test`, `pnpm build` przechodza.
 - Jest `README.md`.
-- Jest aktualizowany `prompts.md`.
+- Jest aktualizowany `docs/prompts.md`.
 - Jest CI gotowe do uruchomienia.
